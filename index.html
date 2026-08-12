@@ -463,13 +463,16 @@
         .order("date");
 
 
-    if (result.error) {
+      if (result.error) {
 
       dates.innerHTML =
-        "<p class='error'>Termine konnten nicht geladen werden.</p>";
+      "<p class='error'>Fehler: "
+      + result.error.message
+      + "</p>";
 
-      return;
+      console.error(result.error);
 
+     return;
     }
 
 
