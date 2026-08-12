@@ -375,8 +375,6 @@ async function login() {
       .getElementById("password")
       .value;
 
-  alert("E-Mail und Passwort wurden gelesen");
-
   const error =
     document
       .getElementById("loginError");
@@ -395,7 +393,8 @@ async function login() {
 
     });
 
-
+  alert("3. Supabase hat geantwortet");
+  
   if (result.error) {
 
     error.textContent =
