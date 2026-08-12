@@ -729,11 +729,12 @@ async function loadAppointments() {
 
 
   const result =
-    await db
-      .from("appointments")
-      .select("*")
-      .order("date")
-      .order("start_time");
+  await db
+    .from("appointments")
+    .select("*")
+    .neq("status", "cancelled")
+    .order("date")
+    .order("start_time");
 
 
   if (result.error) {
