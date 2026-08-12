@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Massage bei Marlon</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f1eb;
+      color: #29342c;
+    }
+
+    header {
+      background: white;
+      padding: 18px 25px;
+      border-bottom: 1px solid #ddd;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      text-decoration: none;
+      color: #637b67;
+    }
+
+    main {
+      max-width: 650px;
+      margin: auto;
+      padding: 30px 18px 60px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 50px 10px;
+    }
+
+    .icon {
+      font-size: 45px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .primary {
+      background: #7f9b83;
+      color: white;
+    }
+
+    .secondary {
+      background: #e9eee9;
+      color: #29342c;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .time {
+      background: white;
+      border: 1px solid #ddd;
+      color: #29342c;
+      margin-bottom: 8px;
+    }
+
+    .success {
+      text-align: center;
+    }
+
+    .code {
+      background: #eef2ed;
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 4px;
+      margin: 20px 0;
+    }
+
+    .error {
+      color: #b33d3d;
+      margin-top: 10px;
+    }
+
+    .muted {
+      color: #707870;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 30px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <strong>Massage bei Marlon</strong>
+  <a href="admin.html">Admin</a>
+</header>
+
+<main>
+
+  <!-- STARTSEITE -->
+
+  <section id="home">
+
+    <div class="hero">
+
+      <div class="icon">✦</div>
+
+      <p>ENTSPANNUNG & WOHLBEFINDEN</p>
+
+      <h1>Deine Massage bei Marlon</h1>
+
+      <p>
+        Buche deinen nächsten Termin ganz einfach
+        und ohne Bezahlung.
+      </p>
+
+      <button class="primary" onclick="showBooking()">
+        Termin buchen
+      </button>
+
+      <button class="secondary" onclick="showAppointments()">
+        Meine Termine
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <h2>60 Minuten Massage</h2>
+
+      <p>
+        Eine entspannende Massage für Wohlbefinden
+        und Erholung.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- BUCHUNG -->
+
+  <section id="booking" class="hidden">
+
+    <button class="secondary" onclick="showHome()">
+      ← Zurück
+    </button>
+
+    <h1>Termin buchen</h1>
+
+    <div class="card">
+
+      <h2>Datum auswählen</h2>
+
+      <div id="dates"></div>
+
+      <p id="dateMessage" class="muted"></p>
+
+    </div>
+
+    <div id="timesCard" class="card hidden">
+
+      <h2>Uhrzeit auswählen</h2>
+
+      <p id="selectedDate" class="muted"></p>
+
+      <div id="times"></div>
+
+    </div>
+
+    <div id="detailsCard" class="card hidden">
+
+      <h2>Deine Daten</h2>
+
+      <div id="summary"></div>
+
+      <label>
+        Dein Name *
+
+        <input
+          id="customerName"
+          type="text"
+          placeholder="Vor- und Nachname"
+        >
+      </label>
+
+      <label>
+        Nachricht (optional)
+
+        <textarea
+          id="message"
+          rows="4"
+          placeholder="Möchtest du mir etwas mitteilen?"
+        ></textarea>
+
+      </label>
+
+      <button class="primary" onclick="bookAppointment()">
+        Termin bestätigen
+      </button>
+
+      <p id="bookingError" class="error"></p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ERFOLG -->
+
+  <section id="success" class="hidden">
+
+    <div class="card success">
+
+      <div class="icon">✓</div>
+
+      <h1>Termin gebucht!</h1>
+
+      <p>
+        Dein Termin wurde erfolgreich gespeichert.
+      </p>
+
+      <div id="successInfo"></div>
+
+      <p>Dein Buchungscode:</p>
+
+      <div id="bookingCode" class="code"></div>
+
+      <p class="muted">
+        Bewahre diesen Code auf.
+        Damit kannst du deinen Termin später aufrufen.
+      </p>
+
+      <button class="primary" onclick="showAppointments()">
+        Meine Termine
+      </button>
+
+      <button class="secondary" onclick="showHome()">
+        Zur Startseite
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- TERMINE -->
+
+  <section id="appointments" class="hidden">
+
+    <button class="secondary" onclick="showHome()">
+      ← Zurück
+    </button>
+
+    <h1>Meine Termine</h1>
+
+    <div class="card">
+
+      <label>
+        Buchungscode
+
+        <input
+          id="lookupCode"
+          placeholder="z.B. A7K4P9Q2"
+        >
+      </label>
+
+      <button class="primary" onclick="loadAppointments()">
+        Termine anzeigen
+      </button>
+
+      <p id="lookupError" class="error"></p>
+
+    </div>
+
+    <div id="appointmentList"></div>
+
+  </section>
+
+</main>
+
+<footer>
+  © Massage bei Marlon
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  /*
+    ==============================
+    SUPABASE
+    ==============================
+
+    DEINE DATEN KOMMEN HIER HIN
+  */
+
+  const SUPABASE_URL =
+    "https://bxwvirthjxpxytvwkcap.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_CvYQjQMtP9Kwkl10ZcMNXQ_vjgwrhhS";
+
+
+  const db =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  let selectedDate = null;
+  let selectedTime = null;
+
+
+  function hideAll() {
+
+    document
+      .getElementById("home")
+      .classList.add("hidden");
+
+    document
+      .getElementById("booking")
+      .classList.add("hidden");
+
+    document
+      .getElementById("success")
+      .classList.add("hidden");
+
+    document
+      .getElementById("appointments")
+      .classList.add("hidden");
+
+  }
+
+
+  function showHome() {
+
+    hideAll();
+
+    document
+      .getElementById("home")
+      .classList.remove("hidden");
+
+  }
+
+
+  async function showBooking() {
+
+    hideAll();
+
+    document
+      .getElementById("booking")
+      .classList.remove("hidden");
+
+    await loadDates();
+
+  }
+
+
+  function showAppointments() {
+
+    hideAll();
+
+    document
+      .getElementById("appointments")
+      .classList.remove("hidden");
+
+    const savedCode =
+      localStorage.getItem("massageCode");
+
+    if (savedCode) {
+
+      document
+        .getElementById("lookupCode")
+        .value = savedCode;
+
+      loadAppointments();
+
+    }
+
+  }
+
+
+  async function loadDates() {
+
+    const dates =
+      document.getElementById("dates");
+
+    dates.innerHTML =
+      "<p>Freie Termine werden geladen...</p>";
+
+
+    const result =
+      await db
+        .from("availability")
+        .select("date")
+        .eq("available", true)
+        .gte(
+          "date",
+          new Date()
+            .toISOString()
+            .split("T")[0]
+        )
+        .order("date");
+
+
+    if (result.error) {
+
+      dates.innerHTML =
+        "<p class='error'>Termine konnten nicht geladen werden.</p>";
+
+      return;
+
+    }
+
+
+    const uniqueDates =
+      [...new Set(
+        result.data.map(item => item.date)
+      )];
+
+
+    if (uniqueDates.length === 0) {
+
+      dates.innerHTML =
+        "<p>Momentan sind keine Termine verfügbar.</p>";
+
+      return;
+
+    }
+
+
+    dates.innerHTML = "";
+
+
+    uniqueDates.forEach(date => {
+
+      const button =
+        document.createElement("button");
+
+      button.className = "time";
+
+      button.textContent =
+        formatDate(date);
+
+      button.onclick =
+        () => selectDate(date);
+
+      dates.appendChild(button);
+
+    });
+
+  }
+
+
+  async function selectDate(date) {
+
+    selectedDate = date;
+
+    document
+      .getElementById("selectedDate")
+      .textContent =
+      formatDate(date);
+
+
+    document
+      .getElementById("timesCard")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("times")
+      .innerHTML =
+      "<p>Uhrzeiten werden geladen...</p>";
+
+
+    const result =
+      await db
+        .from("availability")
+        .select("start_time,end_time")
+        .eq("date", date)
+        .eq("available", true)
+        .order("start_time");
+
+
+    if (result.error) {
+
+      document
+        .getElementById("times")
+        .innerHTML =
+        "<p class='error'>Fehler beim Laden.</p>";
+
+      return;
+
+    }
+
+
+    const times =
+      document.getElementById("times");
+
+    times.innerHTML = "";
+
+
+    result.data.forEach(slot => {
+
+      const button =
+        document.createElement("button");
+
+      button.className = "time";
+
+      button.textContent =
+        slot.start_time.substring(0,5)
+        + " Uhr";
+
+      button.onclick =
+        () =>
+          selectTime(
+            slot.start_time.substring(0,5)
+          );
+
+      times.appendChild(button);
+
+    });
+
+  }
+
+
+  function selectTime(time) {
+
+    selectedTime = time;
+
+
+    document
+      .getElementById("summary")
+      .innerHTML =
+      `
+        <div class="card">
+          <strong>60 Minuten Massage</strong><br>
+          ${formatDate(selectedDate)}<br>
+          ${time} Uhr
+        </div>
+      `;
+
+
+    document
+      .getElementById("detailsCard")
+      .classList.remove("hidden");
+
+  }
+
+
+  function generateCode() {
+
+    const characters =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+    let code = "";
+
+    for (let i = 0; i < 8; i++) {
+
+      code +=
+        characters[
+          Math.floor(
+            Math.random() *
+            characters.length
+          )
+        ];
+
+    }
+
+    return code;
+
+  }
+
+
+  async function bookAppointment() {
+
+    const name =
+      document
+        .getElementById("customerName")
+        .value
+        .trim();
+
+    const message =
+      document
+        .getElementById("message")
+        .value
+        .trim();
+
+
+    const error =
+      document.getElementById("bookingError");
+
+    error.textContent = "";
+
+
+    if (!name) {
+
+      error.textContent =
+        "Bitte gib deinen Namen ein.";
+
+      return;
+
+    }
+
+
+    const code =
+      generateCode();
+
+
+    const result =
+      await db.rpc(
+        "create_appointment",
+        {
+          p_name: name,
+          p_date: selectedDate,
+          p_start_time:
+            selectedTime + ":00",
+          p_message:
+            message || null,
+          p_booking_code:
+            code
+        }
+      );
+
+
+    if (result.error) {
+
+      error.textContent =
+        "Dieser Termin ist leider nicht mehr verfügbar.";
+
+      return;
+
+    }
+
+
+    localStorage.setItem(
+      "massageCode",
+      code
+    );
+
+
+    document
+      .getElementById("bookingCode")
+      .textContent = code;
+
+
+    document
+      .getElementById("successInfo")
+      .innerHTML =
+      `
+        <div class="card">
+          ${formatDate(selectedDate)}<br>
+          ${selectedTime} Uhr<br>
+          <strong>${escapeHtml(name)}</strong>
+        </div>
+      `;
+
+
+    hideAll();
+
+
+    document
+      .getElementById("success")
+      .classList.remove("hidden");
+
+  }
+
+
+  async function loadAppointments() {
+
+    const code =
+      document
+        .getElementById("lookupCode")
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    const error =
+      document
+        .getElementById("lookupError");
+
+
+    const list =
+      document
+        .getElementById("appointmentList");
+
+
+    error.textContent = "";
+
+    list.innerHTML = "";
+
+
+    if (!code) {
+
+      error.textContent =
+        "Bitte gib deinen Buchungscode ein.";
+
+      return;
+
+    }
+
+
+    const result =
+      await db.rpc(
+        "get_my_appointments",
+        {
+          p_code: code
+        }
+      );
+
+
+    if (result.error) {
+
+      error.textContent =
+        "Fehler beim Laden.";
+
+      return;
+
+    }
+
+
+    if (!result.data ||
+        result.data.length === 0) {
+
+      list.innerHTML =
+        `
+          <div class="card">
+            Kein Termin mit diesem Code gefunden.
+          </div>
+        `;
+
+      return;
+
+    }
+
+
+    result.data.forEach(
+      appointment => {
+
+        const card =
+          document.createElement("div");
+
+        card.className = "card";
+
+
+        card.innerHTML =
+        `
+          <h2>Massage</h2>
+
+          <p>
+            <strong>
+              ${formatDate(appointment.date)}
+            </strong>
+          </p>
+
+          <p>
+            ${appointment.start_time.substring(0,5)}
+            Uhr
+          </p>
+
+          <p>
+            Status:
+            ${escapeHtml(appointment.status)}
+          </p>
+
+          ${
+            appointment.status !== "cancelled"
+
+            ?
+
+            `
+              <button
+                class="secondary"
+                onclick="
+                  cancelAppointment(
+                    '${appointment.id}',
+                    '${code}'
+                  )
+                "
+              >
+                Termin stornieren
+              </button>
+            `
+
+            :
+
+            ""
+          }
+
+        `;
+
+
+        list.appendChild(card);
+
+      }
+    );
+
+  }
+
+
+  async function cancelAppointment(
+    id,
+    code
+  ) {
+
+    if (
+      !confirm(
+        "Möchtest du diesen Termin wirklich stornieren?"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    await db.rpc(
+      "cancel_my_appointment",
+      {
+        p_id: id,
+        p_code: code
+      }
+    );
+
+
+    loadAppointments();
+
+  }
+
+
+  function formatDate(date) {
+
+    return new Intl.DateTimeFormat(
+      "de-DE",
+      {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      }
+    ).format(
+      new Date(date + "T12:00:00")
+    );
+
+  }
+
+
+  function escapeHtml(text) {
+
+    return String(text)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+</script>
+
+</body>
+</html>
