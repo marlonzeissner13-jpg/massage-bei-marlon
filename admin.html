@@ -161,57 +161,47 @@
 
 <!-- LOGIN -->
 
-<section id="login">
+async function login() {
 
-  <div class="card">
+  const email =
+    document.getElementById("email").value.trim();
 
-    <h1>Admin Login</h1>
+  const password =
+    document.getElementById("password").value;
 
-    <p>
-      Melde dich an, um deine Massage-Termine zu verwalten.
-    </p>
+  const error =
+    document.getElementById("loginError");
 
+  error.textContent = "";
 
-    <label>
-      E-Mail
+  try {
 
-      <input
-        id="email"
-        type="email"
-        placeholder="Deine E-Mail"
-      >
+    if (!db) {
+      error.textContent = "Supabase ist nicht geladen.";
+      return;
+    }
 
-    </label>
+    const result =
+      await db.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
 
+    if (result.error) {
+      error.textContent =
+        "Login-Fehler: " + result.error.message;
+      return;
+    }
 
-    <label>
-      Passwort
+    showDashboard();
 
-      <input
-        id="password"
-        type="password"
-        placeholder="Dein Passwort"
-      >
+  } catch (e) {
 
-    </label>
+    error.textContent =
+      "Fehler: " + e.message;
 
-
-    <button
-      class="primary"
-      onclick="login()"
-    >
-      Einloggen
-    </button>
-
-
-    <p
-      id="loginError"
-      class="error"
-    ></p>
-
-  </div>
-
-</section>
+  }
+}
 
 
 
