@@ -395,7 +395,7 @@ async function login() {
   if (result.error) {
 
     error.textContent =
-      "E-Mail oder Passwort ist falsch.";
+      "Fehler: " + result.error.message;
 
     return;
 
