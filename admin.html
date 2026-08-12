@@ -525,47 +525,37 @@ async function addSlot() {
   */
 
 
-  const start =
-    time + ":00";
+ /* Massage dauert 15 Minuten. */
+const start = time + ":00";
 
+const hour = parseInt(
+  time.substring(0,2)
+);
 
-  const hour =
-    parseInt(
-      time.substring(0,2)
-    );
-
-
-  const minute =
-    time.substring(3,5);
-
+const minute = parseInt(
+  time.substring(3,5)
+);
 
 const totalMinutes =
-    hour * 60 +
-    minute +
-    15;
+  hour * 60 +
+  minute +
+  15;
 
 const endHour =
-    String(
-      Math.floor(totalMinutes / 60) % 24
-    ).padStart(2, "0");
+  String(
+    Math.floor(totalMinutes / 60) % 24
+  ).padStart(2, "0");
 
 const endMinute =
-    String(
-      totalMinutes % 60
-    ).padStart(2, "0");
+  String(
+    totalMinutes % 60
+  ).padStart(2, "0");
 
 const end =
-    endHour +
-    ":" +
-    endMinute +
-    ":00";  
-
-
-  const end =
-    endHour +
-    ":" +
-    minute +
-    ":00";
+  endHour +
+  ":" +
+  endMinute +
+  ":00"; 
 
 
   const result =
