@@ -538,10 +538,26 @@ async function addSlot() {
     time.substring(3,5);
 
 
-  const endHour =
+const totalMinutes =
+    hour * 60 +
+    minute +
+    15;
+
+const endHour =
     String(
-      (hour + 1) % 24
-    ).padStart(2,"0");
+      Math.floor(totalMinutes / 60) % 24
+    ).padStart(2, "0");
+
+const endMinute =
+    String(
+      totalMinutes % 60
+    ).padStart(2, "0");
+
+const end =
+    endHour +
+    ":" +
+    endMinute +
+    ":00";  
 
 
   const end =
