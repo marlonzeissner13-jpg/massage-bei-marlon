@@ -7,140 +7,299 @@
   <title>Massage bei Marlon</title>
 
   <style>
+    :root {
+      --bg: #f6f3ee;
+      --card: #ffffff;
+      --green: #6f8874;
+      --green-dark: #4f6755;
+      --text: #263329;
+      --muted: #707970;
+      --line: #e4e0d8;
+      --soft: #edf2ed;
+      --danger: #a94747;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f1eb;
-      color: #29342c;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
     }
 
     header {
-      background: white;
-      padding: 18px 25px;
-      border-bottom: 1px solid #ddd;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
 
-    header a {
+    .nav {
+      max-width: 1050px;
+      margin: auto;
+      padding: 17px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .admin-link {
+      color: var(--green-dark);
       text-decoration: none;
-      color: #637b67;
+      font-size: 14px;
     }
 
     main {
-      max-width: 650px;
+      max-width: 900px;
       margin: auto;
-      padding: 30px 18px 60px;
+      padding: 20px;
     }
 
     .hero {
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       text-align: center;
-      padding: 50px 10px;
+      align-items: center;
+      padding: 60px 15px;
     }
 
-    .icon {
-      font-size: 45px;
-      margin-bottom: 20px;
+    .leaf {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow {
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 38px;
-      margin-bottom: 15px;
+      font-family: Georgia, serif;
+      font-weight: 500;
+      font-size: clamp(38px, 8vw, 64px);
+      line-height: 1.05;
+      margin: 0 0 20px;
     }
 
     h2 {
+      font-family: Georgia, serif;
+      font-weight: 500;
       margin-top: 0;
     }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      margin: 20px 0;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    .hero p {
+      max-width: 550px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .hero-buttons {
+      width: 100%;
+      max-width: 430px;
+      margin-top: 25px;
     }
 
     button {
       width: 100%;
-      padding: 15px;
       border: 0;
-      border-radius: 12px;
+      border-radius: 14px;
+      padding: 15px 18px;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 650;
       cursor: pointer;
-      margin-top: 10px;
+      transition: transform .15s, opacity .15s;
+    }
+
+    button:active {
+      transform: scale(.98);
     }
 
     .primary {
-      background: #7f9b83;
+      background: var(--green);
       color: white;
     }
 
     .secondary {
-      background: #e9eee9;
-      color: #29342c;
+      background: var(--soft);
+      color: var(--text);
+    }
+
+    .danger {
+      background: #f7e4e4;
+      color: var(--danger);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 25px;
+      margin: 18px 0;
+      box-shadow: 0 8px 30px rgba(40,50,40,.045);
+    }
+
+    .section-title {
+      margin: 35px 0 10px;
+    }
+
+    .muted {
+      color: var(--muted);
     }
 
     label {
       display: block;
       margin-top: 18px;
-      font-weight: bold;
+      font-weight: 650;
     }
 
     input,
     textarea {
       width: 100%;
-      padding: 13px;
-      margin-top: 7px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 16px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .time {
+      margin-top: 8px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font: inherit;
       background: white;
-      border: 1px solid #ddd;
-      color: #29342c;
-      margin-bottom: 8px;
+      color: var(--text);
     }
 
-    .success {
-      text-align: center;
+    textarea {
+      resize: vertical;
     }
 
-    .code {
-      background: #eef2ed;
-      padding: 20px;
+    .date-grid,
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .date-button,
+    .time-button {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .date-button:hover,
+    .time-button:hover {
+      border-color: var(--green);
+    }
+
+    .selected {
+      background: var(--green) !important;
+      color: white !important;
+      border-color: var(--green) !important;
+    }
+
+    .summary {
+      background: var(--soft);
       border-radius: 15px;
+      padding: 17px;
+      line-height: 1.8;
+      margin-top: 15px;
+    }
+
+    .success-box {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .success-icon {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background: var(--soft);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 28px;
-      font-weight: bold;
-      letter-spacing: 4px;
-      margin: 20px 0;
+    }
+
+    .booking-code {
+      background: #f3f0e9;
+      border: 1px dashed #c8c1b4;
+      border-radius: 16px;
+      padding: 18px;
+      margin: 18px 0;
+      font-size: 30px;
+      font-weight: 750;
+      letter-spacing: 5px;
+    }
+
+    .appointment-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 15px;
+      background: white;
     }
 
     .error {
-      color: #b33d3d;
-      margin-top: 10px;
+      color: var(--danger);
+      margin-top: 12px;
     }
 
-    .muted {
-      color: #707870;
+    .hidden {
+      display: none !important;
     }
 
     footer {
       text-align: center;
-      color: #777;
-      padding: 30px;
+      color: var(--muted);
+      padding: 35px 20px;
       font-size: 13px;
+    }
+
+    @media (max-width: 550px) {
+      main {
+        padding: 10px;
+      }
+
+      .hero {
+        min-height: 550px;
+      }
+
+      .card {
+        padding: 20px;
+        border-radius: 18px;
+      }
+
+      .date-grid,
+      .time-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -148,46 +307,66 @@
 <body>
 
 <header>
-  <strong>Massage bei Marlon</strong>
-  <a href="admin.html">Admin</a>
+  <div class="nav">
+    <div class="brand">Massage bei Marlon</div>
+    <a class="admin-link" href="admin.html">Admin</a>
+  </div>
 </header>
 
 <main>
 
-  <!-- STARTSEITE -->
+  <!-- START -->
 
   <section id="home">
 
     <div class="hero">
 
-      <div class="icon">✦</div>
+      <div class="leaf">🌿</div>
 
-      <p>ENTSPANNUNG & WOHLBEFINDEN</p>
+      <div class="eyebrow">
+        ENTSPANNUNG · WOHLBEFINDEN · ZEIT FÜR DICH
+      </div>
 
-      <h1>Deine Massage bei Marlon</h1>
+      <h1>Deine Massage<br>bei Marlon</h1>
 
       <p>
-        Buche deinen nächsten Termin ganz einfach
-        und ohne Bezahlung.
+        Nimm dir eine Auszeit und buche deinen
+        persönlichen Massagetermin ganz einfach
+        online.
       </p>
 
-      <button class="primary" onclick="showBooking()">
-        Termin buchen
-      </button>
+      <div class="hero-buttons">
 
-      <button class="secondary" onclick="showAppointments()">
-        Meine Termine
-      </button>
+        <button
+          class="primary"
+          onclick="showBooking()"
+        >
+          Termin buchen
+        </button>
+
+        <button
+          class="secondary"
+          onclick="showAppointments()"
+          style="margin-top:10px"
+        >
+          Meine Termine
+        </button>
+
+      </div>
 
     </div>
 
     <div class="card">
 
-      <h2>60 Minuten Massage</h2>
+      <div class="eyebrow">
+        MASSAGE
+      </div>
 
-      <p>
-        Eine entspannende Massage für Wohlbefinden
-        und Erholung.
+      <h2>60 Minuten Entspannung</h2>
+
+      <p class="muted">
+        Eine wohltuende Massage, bei der du
+        einfach abschalten und entspannen kannst.
       </p>
 
     </div>
@@ -199,37 +378,63 @@
 
   <section id="booking" class="hidden">
 
-    <button class="secondary" onclick="showHome()">
+    <button
+      class="secondary"
+      onclick="showHome()"
+    >
       ← Zurück
     </button>
 
-    <h1>Termin buchen</h1>
+    <div class="section-title">
+      <div class="eyebrow">DEIN TERMIN</div>
+      <h1>Termin buchen</h1>
+      <p class="muted">
+        Wähle zuerst einen Tag und anschließend
+        deine gewünschte Uhrzeit.
+      </p>
+    </div>
 
     <div class="card">
 
-      <h2>Datum auswählen</h2>
+      <h2>1. Tag auswählen</h2>
 
-      <div id="dates"></div>
-
-      <p id="dateMessage" class="muted"></p>
-
-    </div>
-
-    <div id="timesCard" class="card hidden">
-
-      <h2>Uhrzeit auswählen</h2>
-
-      <p id="selectedDate" class="muted"></p>
-
-      <div id="times"></div>
+      <div
+        id="dates"
+        class="date-grid"
+      ></div>
 
     </div>
 
-    <div id="detailsCard" class="card hidden">
+    <div
+      id="timesCard"
+      class="card hidden"
+    >
 
-      <h2>Deine Daten</h2>
+      <h2>2. Uhrzeit auswählen</h2>
 
-      <div id="summary"></div>
+      <p
+        id="selectedDate"
+        class="muted"
+      ></p>
+
+      <div
+        id="times"
+        class="time-grid"
+      ></div>
+
+    </div>
+
+    <div
+      id="detailsCard"
+      class="card hidden"
+    >
+
+      <h2>3. Daten eingeben</h2>
+
+      <div
+        id="summary"
+        class="summary"
+      ></div>
 
       <label>
         Dein Name *
@@ -249,14 +454,20 @@
           rows="4"
           placeholder="Möchtest du mir etwas mitteilen?"
         ></textarea>
-
       </label>
 
-      <button class="primary" onclick="bookAppointment()">
-        Termin bestätigen
+      <button
+        class="primary"
+        onclick="bookAppointment()"
+        style="margin-top:20px"
+      >
+        Termin verbindlich buchen
       </button>
 
-      <p id="bookingError" class="error"></p>
+      <p
+        id="bookingError"
+        class="error"
+      ></p>
 
     </div>
 
@@ -265,35 +476,57 @@
 
   <!-- ERFOLG -->
 
-  <section id="success" class="hidden">
+  <section
+    id="success"
+    class="hidden"
+  >
 
-    <div class="card success">
+    <div class="card success-box">
 
-      <div class="icon">✓</div>
+      <div class="success-icon">
+        ✓
+      </div>
 
-      <h1>Termin gebucht!</h1>
+      <div class="eyebrow">
+        GESCHAFFT
+      </div>
 
-      <p>
-        Dein Termin wurde erfolgreich gespeichert.
+      <h1>Termin gebucht</h1>
+
+      <p class="muted">
+        Dein Massagetermin wurde erfolgreich
+        gespeichert.
       </p>
 
       <div id="successInfo"></div>
 
-      <p>Dein Buchungscode:</p>
-
-      <div id="bookingCode" class="code"></div>
-
       <p class="muted">
-        Bewahre diesen Code auf.
-        Damit kannst du deinen Termin später aufrufen.
+        Dein persönlicher Buchungscode:
       </p>
 
-      <button class="primary" onclick="showAppointments()">
-        Meine Termine
+      <div
+        id="bookingCode"
+        class="booking-code"
+      ></div>
+
+      <p class="muted">
+        Bewahre diesen Code auf. Du brauchst ihn,
+        um deinen Termin später aufzurufen.
+      </p>
+
+      <button
+        class="primary"
+        onclick="copyBookingCode()"
+      >
+        Buchungscode kopieren
       </button>
 
-      <button class="secondary" onclick="showHome()">
-        Zur Startseite
+      <button
+        class="secondary"
+        onclick="showAppointments()"
+        style="margin-top:10px"
+      >
+        Meine Termine
       </button>
 
     </div>
@@ -303,30 +536,50 @@
 
   <!-- TERMINE -->
 
-  <section id="appointments" class="hidden">
+  <section
+    id="appointments"
+    class="hidden"
+  >
 
-    <button class="secondary" onclick="showHome()">
+    <button
+      class="secondary"
+      onclick="showHome()"
+    >
       ← Zurück
     </button>
 
-    <h1>Meine Termine</h1>
+    <div class="section-title">
+      <div class="eyebrow">ÜBERSICHT</div>
+      <h1>Meine Termine</h1>
+    </div>
 
     <div class="card">
+
+      <p class="muted">
+        Gib deinen Buchungscode ein, um deinen
+        Termin aufzurufen.
+      </p>
 
       <label>
         Buchungscode
 
         <input
           id="lookupCode"
-          placeholder="z.B. A7K4P9Q2"
+          placeholder="z. B. A7K4P9Q2"
         >
       </label>
 
-      <button class="primary" onclick="loadAppointments()">
-        Termine anzeigen
+      <button
+        class="primary"
+        onclick="loadAppointments()"
+      >
+        Termin anzeigen
       </button>
 
-      <p id="lookupError" class="error"></p>
+      <p
+        id="lookupError"
+        class="error"
+      ></p>
 
     </div>
 
@@ -337,7 +590,7 @@
 </main>
 
 <footer>
-  © Massage bei Marlon
+  Massage bei Marlon · Entspannung & Wohlbefinden
 </footer>
 
 
@@ -345,539 +598,636 @@
 
 <script>
 
-  /*
-    ==============================
-    SUPABASE
-    ==============================
+const SUPABASE_URL =
+  "https://bxwvirthjxpxytvwkcap.supabase.co";
 
-    DEINE DATEN KOMMEN HIER HIN
-  */
+const SUPABASE_KEY =
+  "DEIN_PUBLISHABLE_KEY";
 
-  const SUPABASE_URL =
-    "https://bxwvirthjxpxytvwkcap.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_CvYQjQMtP9Kwkl10ZcMNXQ_vjgwrhhS";
+const db =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-  const db =
-    supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+let selectedDate = null;
+let selectedTime = null;
 
 
-  let selectedDate = null;
-  let selectedTime = null;
+function hideAll() {
+
+  document
+    .getElementById("home")
+    .classList.add("hidden");
+
+  document
+    .getElementById("booking")
+    .classList.add("hidden");
+
+  document
+    .getElementById("success")
+    .classList.add("hidden");
+
+  document
+    .getElementById("appointments")
+    .classList.add("hidden");
+
+}
 
 
-  function hideAll() {
+function showHome() {
+
+  hideAll();
+
+  document
+    .getElementById("home")
+    .classList.remove("hidden");
+
+}
+
+
+async function showBooking() {
+
+  hideAll();
+
+  document
+    .getElementById("booking")
+    .classList.remove("hidden");
+
+  await loadDates();
+
+}
+
+
+function showAppointments() {
+
+  hideAll();
+
+  document
+    .getElementById("appointments")
+    .classList.remove("hidden");
+
+  const savedCode =
+    localStorage.getItem("massageCode");
+
+  if (savedCode) {
 
     document
-      .getElementById("home")
-      .classList.add("hidden");
+      .getElementById("lookupCode")
+      .value = savedCode;
 
-    document
-      .getElementById("booking")
-      .classList.add("hidden");
-
-    document
-      .getElementById("success")
-      .classList.add("hidden");
-
-    document
-      .getElementById("appointments")
-      .classList.add("hidden");
+    loadAppointments();
 
   }
 
-
-  function showHome() {
-
-    hideAll();
-
-    document
-      .getElementById("home")
-      .classList.remove("hidden");
-
-  }
+}
 
 
-  async function showBooking() {
+async function loadDates() {
 
-    hideAll();
+  const dates =
+    document.getElementById("dates");
 
-    document
-      .getElementById("booking")
-      .classList.remove("hidden");
-
-    await loadDates();
-
-  }
+  dates.innerHTML =
+    "<p class='muted'>Freie Termine werden geladen...</p>";
 
 
-  function showAppointments() {
-
-    hideAll();
-
-    document
-      .getElementById("appointments")
-      .classList.remove("hidden");
-
-    const savedCode =
-      localStorage.getItem("massageCode");
-
-    if (savedCode) {
-
-      document
-        .getElementById("lookupCode")
-        .value = savedCode;
-
-      loadAppointments();
-
-    }
-
-  }
+  const today =
+    new Date()
+      .toLocaleDateString(
+        "sv-SE",
+        {
+          timeZone: "Europe/Berlin"
+        }
+      );
 
 
-  async function loadDates() {
+  const result =
+    await db
+      .from("availability")
+      .select("date")
+      .eq("available", true)
+      .gte("date", today)
+      .order("date");
 
-    const dates =
-      document.getElementById("dates");
+
+  if (result.error) {
 
     dates.innerHTML =
-      "<p>Freie Termine werden geladen...</p>";
-
-
-    const result =
-      await db
-        .from("availability")
-        .select("date")
-        .eq("available", true)
-        .gte(
-          "date",
-          new Date()
-            .toISOString()
-            .split("T")[0]
-        )
-        .order("date");
-
-
-      if (result.error) {
-
-      dates.innerHTML =
       "<p class='error'>Fehler: "
       + result.error.message
       + "</p>";
 
-      console.error(result.error);
-
-     return;
-    }
-
-
-    const uniqueDates =
-      [...new Set(
-        result.data.map(item => item.date)
-      )];
-
-
-    if (uniqueDates.length === 0) {
-
-      dates.innerHTML =
-        "<p>Momentan sind keine Termine verfügbar.</p>";
-
-      return;
-
-    }
-
-
-    dates.innerHTML = "";
-
-
-    uniqueDates.forEach(date => {
-
-      const button =
-        document.createElement("button");
-
-      button.className = "time";
-
-      button.textContent =
-        formatDate(date);
-
-      button.onclick =
-        () => selectDate(date);
-
-      dates.appendChild(button);
-
-    });
+    return;
 
   }
 
 
-  async function selectDate(date) {
-
-    selectedDate = date;
-
-    document
-      .getElementById("selectedDate")
-      .textContent =
-      formatDate(date);
-
-
-    document
-      .getElementById("timesCard")
-      .classList.remove("hidden");
+  const uniqueDates =
+    [
+      ...new Set(
+        result.data.map(
+          item => item.date
+        )
+      )
+    ];
 
 
-    document
-      .getElementById("times")
-      .innerHTML =
-      "<p>Uhrzeiten werden geladen...</p>";
+  if (!uniqueDates.length) {
 
+    dates.innerHTML =
+      "<p class='muted'>Momentan sind keine Termine verfügbar.</p>";
 
-    const result =
-      await db
-        .from("availability")
-        .select("start_time,end_time")
-        .eq("date", date)
-        .eq("available", true)
-        .order("start_time");
-
-
-    if (result.error) {
-
-      document
-        .getElementById("times")
-        .innerHTML =
-        "<p class='error'>Fehler beim Laden.</p>";
-
-      return;
-
-    }
-
-
-    const times =
-      document.getElementById("times");
-
-    times.innerHTML = "";
-
-
-    result.data.forEach(slot => {
-
-      const button =
-        document.createElement("button");
-
-      button.className = "time";
-
-      button.textContent =
-        slot.start_time.substring(0,5)
-        + " Uhr";
-
-      button.onclick =
-        () =>
-          selectTime(
-            slot.start_time.substring(0,5)
-          );
-
-      times.appendChild(button);
-
-    });
+    return;
 
   }
 
 
-  function selectTime(time) {
-
-    selectedTime = time;
+  dates.innerHTML = "";
 
 
-    document
-      .getElementById("summary")
-      .innerHTML =
-      `
-        <div class="card">
-          <strong>60 Minuten Massage</strong><br>
-          ${formatDate(selectedDate)}<br>
-          ${time} Uhr
-        </div>
-      `;
+  uniqueDates.forEach(date => {
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "date-button";
+
+    button.textContent =
+      shortDate(date);
+
+    button.onclick =
+      () => selectDate(date);
+
+    dates.appendChild(button);
+
+  });
+
+}
 
 
-    document
-      .getElementById("detailsCard")
-      .classList.remove("hidden");
+async function selectDate(date) {
+
+  selectedDate = date;
+  selectedTime = null;
+
+
+  document
+    .getElementById("selectedDate")
+    .textContent =
+    formatDate(date);
+
+
+  document
+    .getElementById("timesCard")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("detailsCard")
+    .classList.add("hidden");
+
+
+  const times =
+    document.getElementById("times");
+
+
+  times.innerHTML =
+    "<p class='muted'>Uhrzeiten werden geladen...</p>";
+
+
+  const result =
+    await db
+      .from("availability")
+      .select(
+        "start_time,end_time"
+      )
+      .eq("date", date)
+      .eq("available", true)
+      .order("start_time");
+
+
+  if (result.error) {
+
+    times.innerHTML =
+      "<p class='error'>Fehler: "
+      + result.error.message
+      + "</p>";
+
+    return;
 
   }
 
 
-  function generateCode() {
+  if (!result.data.length) {
 
-    const characters =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    times.innerHTML =
+      "<p class='muted'>Für diesen Tag sind keine Zeiten mehr verfügbar.</p>";
 
-    let code = "";
-
-    for (let i = 0; i < 8; i++) {
-
-      code +=
-        characters[
-          Math.floor(
-            Math.random() *
-            characters.length
-          )
-        ];
-
-    }
-
-    return code;
+    return;
 
   }
 
 
-  async function bookAppointment() {
-
-    const name =
-      document
-        .getElementById("customerName")
-        .value
-        .trim();
-
-    const message =
-      document
-        .getElementById("message")
-        .value
-        .trim();
+  times.innerHTML = "";
 
 
-    const error =
-      document.getElementById("bookingError");
+  result.data.forEach(slot => {
 
-    error.textContent = "";
+    const button =
+      document.createElement("button");
 
+    button.className =
+      "time-button";
 
-    if (!name) {
+    button.textContent =
+      slot.start_time.substring(0,5)
+      + " Uhr";
 
-      error.textContent =
-        "Bitte gib deinen Namen ein.";
-
-      return;
-
-    }
-
-
-    const code =
-      generateCode();
-
-
-    const result =
-      await db.rpc(
-        "create_appointment",
-        {
-          p_name: name,
-          p_date: selectedDate,
-          p_start_time:
-            selectedTime + ":00",
-          p_message:
-            message || null,
-          p_booking_code:
-            code
-        }
+    button.onclick =
+      () => selectTime(
+        slot.start_time.substring(0,5),
+        button
       );
 
+    times.appendChild(button);
 
-    if (result.error) {
+  });
 
-      error.textContent =
-        "Dieser Termin ist leider nicht mehr verfügbar.";
-
-      return;
-
-    }
+}
 
 
-    localStorage.setItem(
-      "massageCode",
-      code
+function selectTime(
+  time,
+  button
+) {
+
+  selectedTime = time;
+
+
+  document
+    .querySelectorAll(".time-button")
+    .forEach(
+      b => b.classList.remove("selected")
     );
 
 
+  button.classList.add("selected");
+
+
+  document
+    .getElementById("summary")
+    .innerHTML =
+    `
+      <strong>60 Minuten Massage</strong><br>
+      ${formatDate(selectedDate)}<br>
+      ${time} Uhr
+    `;
+
+
+  document
+    .getElementById("detailsCard")
+    .classList.remove("hidden");
+
+}
+
+
+function generateCode() {
+
+  const characters =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let code = "";
+
+  for (
+    let i = 0;
+    i < 8;
+    i++
+  ) {
+
+    code +=
+      characters[
+        Math.floor(
+          Math.random() *
+          characters.length
+        )
+      ];
+
+  }
+
+  return code;
+
+}
+
+
+async function bookAppointment() {
+
+  const name =
     document
-      .getElementById("bookingCode")
-      .textContent = code;
+      .getElementById("customerName")
+      .value
+      .trim();
 
 
+  const message =
     document
-      .getElementById("successInfo")
-      .innerHTML =
-      `
-        <div class="card">
-          ${formatDate(selectedDate)}<br>
-          ${selectedTime} Uhr<br>
-          <strong>${escapeHtml(name)}</strong>
-        </div>
-      `;
+      .getElementById("message")
+      .value
+      .trim();
 
 
-    hideAll();
-
-
+  const error =
     document
-      .getElementById("success")
-      .classList.remove("hidden");
+      .getElementById("bookingError");
+
+
+  error.textContent = "";
+
+
+  if (!name) {
+
+    error.textContent =
+      "Bitte gib deinen Namen ein.";
+
+    return;
 
   }
 
 
-  async function loadAppointments() {
+  if (!selectedDate || !selectedTime) {
 
-    const code =
-      document
-        .getElementById("lookupCode")
-        .value
-        .trim()
-        .toUpperCase();
+    error.textContent =
+      "Bitte wähle zuerst Datum und Uhrzeit.";
 
+    return;
 
-    const error =
-      document
-        .getElementById("lookupError");
+  }
 
 
-    const list =
-      document
-        .getElementById("appointmentList");
+  const code =
+    generateCode();
 
 
-    error.textContent = "";
-
-    list.innerHTML = "";
-
-
-    if (!code) {
-
-      error.textContent =
-        "Bitte gib deinen Buchungscode ein.";
-
-      return;
-
-    }
-
-
-    const result =
-      await db.rpc(
-        "get_my_appointments",
-        {
-          p_code: code
-        }
-      );
-
-
-    if (result.error) {
-
-      error.textContent =
-        "Fehler beim Laden.";
-
-      return;
-
-    }
-
-
-    if (!result.data ||
-        result.data.length === 0) {
-
-      list.innerHTML =
-        `
-          <div class="card">
-            Kein Termin mit diesem Code gefunden.
-          </div>
-        `;
-
-      return;
-
-    }
-
-
-    result.data.forEach(
-      appointment => {
-
-        const card =
-          document.createElement("div");
-
-        card.className = "card";
-
-
-        card.innerHTML =
-        `
-          <h2>Massage</h2>
-
-          <p>
-            <strong>
-              ${formatDate(appointment.date)}
-            </strong>
-          </p>
-
-          <p>
-            ${appointment.start_time.substring(0,5)}
-            Uhr
-          </p>
-
-          <p>
-            Status:
-            ${escapeHtml(appointment.status)}
-          </p>
-
-          ${
-            appointment.status !== "cancelled"
-
-            ?
-
-            `
-              <button
-                class="secondary"
-                onclick="
-                  cancelAppointment(
-                    '${appointment.id}',
-                    '${code}'
-                  )
-                "
-              >
-                Termin stornieren
-              </button>
-            `
-
-            :
-
-            ""
-          }
-
-        `;
-
-
-        list.appendChild(card);
-
+  const result =
+    await db.rpc(
+      "create_appointment",
+      {
+        p_name: name,
+        p_date: selectedDate,
+        p_start_time:
+          selectedTime + ":00",
+        p_message:
+          message || null,
+        p_booking_code:
+          code
       }
     );
 
+
+  if (result.error) {
+
+    error.textContent =
+      "Dieser Termin ist leider gerade nicht mehr verfügbar. Bitte wähle eine andere Uhrzeit.";
+
+    await loadDates();
+
+    return;
+
   }
 
 
-  async function cancelAppointment(
-    id,
+  /*
+    Gebuchte Zeit automatisch deaktivieren.
+  */
+
+  const update =
+    await db
+      .from("availability")
+      .update({
+        available: false
+      })
+      .eq("date", selectedDate)
+      .eq(
+        "start_time",
+        selectedTime + ":00"
+      );
+
+
+  if (update.error) {
+
+    console.error(
+      "Verfügbarkeit konnte nicht aktualisiert werden:",
+      update.error
+    );
+
+  }
+
+
+  localStorage.setItem(
+    "massageCode",
     code
-  ) {
+  );
 
-    if (
-      !confirm(
-        "Möchtest du diesen Termin wirklich stornieren?"
-      )
-    ) {
 
-      return;
+  document
+    .getElementById("bookingCode")
+    .textContent = code;
+
+
+  document
+    .getElementById("successInfo")
+    .innerHTML =
+    `
+      <div class="summary">
+        ${formatDate(selectedDate)}<br>
+        ${selectedTime} Uhr<br>
+        <strong>${escapeHtml(name)}</strong>
+      </div>
+    `;
+
+
+  hideAll();
+
+
+  document
+    .getElementById("success")
+    .classList.remove("hidden");
+
+}
+
+
+function copyBookingCode() {
+
+  const code =
+    document
+      .getElementById("bookingCode")
+      .textContent;
+
+  navigator.clipboard
+    .writeText(code);
+
+}
+
+
+async function loadAppointments() {
+
+  const code =
+    document
+      .getElementById("lookupCode")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const error =
+    document
+      .getElementById("lookupError");
+
+
+  const list =
+    document
+      .getElementById("appointmentList");
+
+
+  error.textContent = "";
+
+  list.innerHTML = "";
+
+
+  if (!code) {
+
+    error.textContent =
+      "Bitte gib deinen Buchungscode ein.";
+
+    return;
+
+  }
+
+
+  const result =
+    await db.rpc(
+      "get_my_appointments",
+      {
+        p_code: code
+      }
+    );
+
+
+  if (result.error) {
+
+    error.textContent =
+      "Fehler: "
+      + result.error.message;
+
+    return;
+
+  }
+
+
+  if (!result.data.length) {
+
+    list.innerHTML =
+      `
+        <div class="card">
+          <p class="muted">
+            Kein Termin mit diesem Buchungscode gefunden.
+          </p>
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  result.data.forEach(
+    appointment => {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "appointment-card";
+
+
+      card.innerHTML =
+      `
+        <h2>Massage</h2>
+
+        <p>
+          <strong>
+            ${formatDate(
+              appointment.date
+            )}
+          </strong>
+        </p>
+
+        <p>
+          ${appointment.start_time.substring(0,5)}
+          Uhr
+        </p>
+
+        <p class="muted">
+          Status:
+          ${escapeHtml(
+            appointment.status
+          )}
+        </p>
+
+        ${
+          appointment.status !== "cancelled"
+
+          ?
+
+          `
+            <button
+              class="danger"
+              onclick="
+                cancelAppointment(
+                  '${appointment.id}',
+                  '${code}'
+                )
+              "
+            >
+              Termin stornieren
+            </button>
+          `
+
+          :
+
+          ""
+        }
+
+      `;
+
+
+      list.appendChild(card);
 
     }
+  );
+
+}
 
 
+async function cancelAppointment(
+  id,
+  code
+) {
+
+  if (
+    !confirm(
+      "Möchtest du diesen Termin wirklich stornieren?"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const result =
     await db.rpc(
       "cancel_my_appointment",
       {
@@ -887,40 +1237,106 @@
     );
 
 
-    loadAppointments();
+  if (result.error) {
 
-  }
-
-
-  function formatDate(date) {
-
-    return new Intl.DateTimeFormat(
-      "de-DE",
-      {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-      }
-    ).format(
-      new Date(date + "T12:00:00")
+    alert(
+      "Der Termin konnte nicht storniert werden."
     );
 
+    return;
+
+  }
+
+
+  /*
+    Freie Zeit wieder verfügbar machen.
+  */
+
+  const appointment =
+    await db
+      .from("appointments")
+      .select(
+        "date,start_time"
+      )
+      .eq("id", id)
+      .single();
+
+
+  if (
+    appointment.data
+  ) {
+
+    await db
+      .from("availability")
+      .update({
+        available: true
+      })
+      .eq(
+        "date",
+        appointment.data.date
+      )
+      .eq(
+        "start_time",
+        appointment.data.start_time
+      );
+
   }
 
 
-  function escapeHtml(text) {
+  loadAppointments();
 
-    return String(text)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+}
 
-  }
+
+function formatDate(date) {
+
+  return new Intl.DateTimeFormat(
+    "de-DE",
+    {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }
+  ).format(
+    new Date(
+      date + "T12:00:00"
+    )
+  );
+
+}
+
+
+function shortDate(date) {
+
+  return new Intl.DateTimeFormat(
+    "de-DE",
+    {
+      weekday: "short",
+      day: "2-digit",
+      month: "2-digit"
+    }
+  ).format(
+    new Date(
+      date + "T12:00:00"
+    )
+  );
+
+}
+
+
+function escapeHtml(text) {
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
 
 </script>
 
 </body>
-<d/html>
+</html>
