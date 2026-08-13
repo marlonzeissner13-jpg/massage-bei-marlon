@@ -581,7 +581,6 @@ FREIE ZEITEN LADEN
 
 async function loadSlots() {
 
-
   const container =
     document.getElementById("slots");
 
@@ -598,69 +597,57 @@ async function loadSlots() {
       .order("date")
       .order("start_time");
 
-
   if (result.error) {
     container.innerHTML =
       "<p>Fehler beim Laden.</p>";
     return;
-
   }
-
 
   if (!result.data.length) {
     container.innerHTML =
       "<p>Noch keine freien Zeiten.</p>";
     return;
-
   }
-
 
   container.innerHTML = "";
 
-
   result.data.forEach(slot => {
-
 
     const div =
       document.createElement("div");
 
-
     div.className = "slot";
 
-
     div.innerHTML = `
-        <strong>
-          ${formatDate(slot.date)}
-        </strong>
+      <strong>
+        ${formatDate(slot.date)}
+      </strong>
 
-        <br>
+      <br>
 
-        ${slot.start_time.substring(0,5)}
-        Uhr
+      ${slot.start_time.substring(0,5)}
+      Uhr
 
-        <button
-          type="button"
-          class="danger" 
-        >
-          Freie Zeit löschen
-        </button>
-      `;
-      const button =
-        div.querySelector("button");
+      <button
+        type="button"
+        class="danger"
+      >
+        Freie Zeit löschen
+      </button>
+    `;
 
-      button.addEventListener("click",
-        deleteSlot(slot.id);
-      });
-  
-     container.appendChild(div);
+    const button =
+      div.querySelector("button");
 
+    button.addEventListener(
+      "click",
+      () => deleteSlot(slot.id)
+    );
 
+    container.appendChild(div);
   });
-
 }
-
-
-
+  
 /*
 ====================================
 FREIE ZEIT LÖSCHEN
