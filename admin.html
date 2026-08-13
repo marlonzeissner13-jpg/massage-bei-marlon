@@ -800,30 +800,31 @@ TERMIN STORNIEREN
 
 async function cancelAppointment(id) {
 
-
   if (
     !confirm(
       "Möchtest du diesen Termin wirklich stornieren?"
     )
   ) {
-
     return;
-
   }
 
+  const result =
+    await db
+      .from("appointments")
+      .update({
+        status: "cancelled"
+      })
+      .eq("id", id);
 
-  await db
-    .from("appointments")
-    .update({
-
-      status: "cancelled"
-
-    })
-    .eq("id", id);
-
+  if (result.error) {
+    alert(
+      "Fehler beim Stornieren: " +
+      result.error.message
+    );
+    return;
+  }
 
   await loadAppointments();
-
 }
 
 
