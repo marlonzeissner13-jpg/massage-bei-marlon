@@ -757,42 +757,21 @@ FREIE ZEIT LÖSCHEN
 
 async function deleteSlot(id) {
 
-  const confirmed =
-    confirm(
-      "Möchtest du diese freie Zeit löschen?"
-    );
+  alert("deleteSlot wurde aufgerufen. ID: " + id);
 
+  const result = await db
+    .from("availability")
+    .delete()
+    .eq("id", id);
 
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  const result =
-    await db
-      .from("availability")
-      .delete()
-      .eq("id", id);
-
-
-  if (result.error) {
-
-    alert(
-      "Fehler beim Löschen:\n\n" +
-      result.error.message
-    );
-
-    return;
-
-  }
-
+  alert(
+    result.error
+      ? "FEHLER: " + result.error.message
+      : "LÖSCHEN ERFOLGREICH"
+  );
 
   await loadSlots();
-
 }
-
 
 
 /*
@@ -955,49 +934,23 @@ TERMIN STORNIEREN
 
 async function cancelAppointment(id) {
 
-  const confirmed =
-    confirm(
-      "Möchtest du diesen Termin wirklich stornieren?"
-    );
+  alert("cancelAppointment wurde aufgerufen. ID: " + id);
 
+  const result = await db
+    .from("appointments")
+    .update({
+      status: "cancelled"
+    })
+    .eq("id", id);
 
-  if (!confirmed) {
-
-    return;
-
-  }
-
-
-  const result =
-    await db
-      .from("appointments")
-      .update({
-
-        status: "cancelled"
-
-      })
-      .eq(
-        "id",
-        id
-      );
-
-
-  if (result.error) {
-
-    alert(
-      "Fehler beim Stornieren:\n\n" +
-      result.error.message
-    );
-
-    return;
-
-  }
-
+  alert(
+    result.error
+      ? "FEHLER: " + result.error.message
+      : "STORNIEREN ERFOLGREICH"
+  );
 
   await loadAppointments();
-
 }
-
 
 
 /*
