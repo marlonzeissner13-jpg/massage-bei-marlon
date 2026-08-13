@@ -500,7 +500,7 @@ async function addSlot() {
 
 
   /*
-    Massage dauert 60 Minuten.
+    Massage dauert 15 Minuten.
   */
 
 
@@ -694,20 +694,16 @@ TERMINE LADEN
 
 async function loadAppointments() {
 
-
   const container =
-    document
-      .getElementById("appointments");
-
+    document.getElementById("appointments");
 
   const result =
-  await db
-    .from("appointments")
-    .select("*")
-    .neq("status", "cancelled")
-    .order("date")
-    .order("start_time");
-
+    await db
+      .from("appointments")
+      .select("*")
+      .neq("status", "cancelled")
+      .order("date")
+      .order("start_time");
 
   if (result.error) {
 
@@ -715,9 +711,7 @@ async function loadAppointments() {
       "<p>Fehler beim Laden.</p>";
 
     return;
-
   }
-
 
   if (!result.data.length) {
 
@@ -725,113 +719,77 @@ async function loadAppointments() {
       "<p>Noch keine Buchungen.</p>";
 
     return;
-
   }
-
 
   container.innerHTML = "";
 
-
   result.data.forEach(appointment => {
-
 
     const div =
       document.createElement("div");
 
+    div.className = "appointment";
 
-    div.className =
-      "appointment";
+    div.innerHTML = `
+      <strong>
+        ${formatDate(appointment.date)}
+      </strong>
 
+      <br>
 
-    div.innerHTML =
-      `
+      ${appointment.start_time.substring(0,5)}
+      Uhr
+
+      <p>
+        Kunde:
+        ${escapeHtml(appointment.customer_name)}
+      </p>
+
+      <p>
+        Status:
+        ${escapeHtml(appointment.status)}
+      </p>
+
+      ${
+        appointment.message
+        ?
+        `
+          <p>
+            Nachricht:
+            ${escapeHtml(appointment.message)}
+          </p>
+        `
+        :
+        ""
+      }
+
+      <p>
+        Buchungscode:
         <strong>
-          ${formatDate(appointment.date)}
+          ${escapeHtml(appointment.booking_code)}
         </strong>
+      </p>
 
-        <br>
+      <button
+        type="button"
+        class="danger"
+      >
+        Termin stornieren
+      </button>
+    `;
 
-        ${appointment.start_time.substring(0,5)}
-        Uhr
+    const button =
+      div.querySelector("button");
 
-        <p>
-          Kunde:
-          ${escapeHtml(
-            appointment.customer_name
-          )}
-        </p>
-
-        <p>
-          Status:
-          ${escapeHtml(
-            appointment.status
-          )}
-        </p>
-
-        ${
-          appointment.message
-
-          ?
-
-          `
-            <p>
-              Nachricht:
-              ${escapeHtml(
-                appointment.message
-              )}
-            </p>
-          `
-
-          :
-
-          ""
-        }
-
-
-        <p>
-          Buchungscode:
-          <strong>
-            ${escapeHtml(
-              appointment.booking_code
-            )}
-          </strong>
-        </p>
-
-
-        ${
-          appointment.status !== "cancelled"
-
-          ?
-
-          `
-            <button
-              class="danger"
-              onclick="
-                cancelAppointment(
-                  '${appointment.id}'
-                )
-              "
-            >
-              Termin stornieren
-            </button>
-          `
-
-          :
-
-          ""
-        }
-
-      `;
-
+    button.addEventListener(
+      "click",
+      () => cancelAppointment(appointment.id)
+    );
 
     container.appendChild(div);
 
-
   });
-
 }
-
-
 
 /*
 ====================================
