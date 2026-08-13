@@ -583,9 +583,7 @@ async function loadSlots() {
 
 
   const container =
-    document
-      .getElementById("slots");
-
+    document.getElementById("slots");
 
   const result =
     await db
@@ -602,20 +600,16 @@ async function loadSlots() {
 
 
   if (result.error) {
-
     container.innerHTML =
       "<p>Fehler beim Laden.</p>";
-
     return;
 
   }
 
 
   if (!result.data.length) {
-
     container.innerHTML =
       "<p>Noch keine freien Zeiten.</p>";
-
     return;
 
   }
@@ -631,12 +625,10 @@ async function loadSlots() {
       document.createElement("div");
 
 
-    div.className =
-      "slot";
+    div.className = "slot";
 
 
-    div.innerHTML =
-      `
+    div.innerHTML = `
         <strong>
           ${formatDate(slot.date)}
         </strong>
@@ -648,15 +640,19 @@ async function loadSlots() {
 
         <button
           type="button"
-          class="danger"
-          onclick="deleteSlot('${slot.id}')"
+          class="danger" 
         >
           Freie Zeit löschen
         </button>
       `;
+      const button =
+        div.querySelector("button");
 
-
-    container.appendChild(div);
+      button.addEventListener("click",
+        deleteSlot(slot.id);
+      });
+  
+     container.appendChild(div);
 
 
   });
@@ -684,18 +680,23 @@ async function deleteSlot(id) {
 
   }
 
+  const result =
+    await db
+      .from("availability")
+      .delete()
+      .eq("id", id);
 
-  await db
-    .from("availability")
-    .delete()
-    .eq("id", id);
-
+  if (result.error) {
+    alert(
+      "Fehler beim Löschen: " +
+      result.error.massage
+    );
+    return;
+  }
 
   await loadSlots();
 
 }
-
-window.deleteSlot = deleteSlot;
 
 /*
 ====================================
