@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Admin – Massage bei Marlon</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f1eb;
+      color: #29342c;
+    }
+
+    header {
+      background: white;
+      padding: 18px 25px;
+      border-bottom: 1px solid #ddd;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: #637b67;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 800px;
+      margin: auto;
+      padding: 30px 18px 60px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      margin: 20px 0;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #7f9b83;
+      color: white;
+    }
+
+    .secondary {
+      background: #e9eee9;
+      color: #29342c;
+    }
+
+    .danger {
+      background: #f4dddd;
+      color: #9e3333;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: #b33d3d;
+    }
+
+    .success {
+      color: #53715a;
+    }
+
+    .appointment,
+    .slot {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      padding: 18px;
+      margin-top: 12px;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .logout {
+      width: auto;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <strong>
+    Massage bei Marlon – Admin
+  </strong>
+
+  <a href="index.html">
+    Kundenbereich
+  </a>
+
+</header>
+
+
+<main>
+
+
+<!-- LOGIN -->
+
+<section id="login">
+
+  <div class="card">
+
+    <h1>Admin Login</h1>
+
+    <p>
+      Melde dich an, um deine Massage-Termine zu verwalten.
+    </p>
+
+
+    <label>
+      E-Mail
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Deine E-Mail"
+      >
+
+    </label>
+
+
+    <label>
+      Passwort
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Dein Passwort"
+      >
+
+    </label>
+
+
+    <button
+      class="primary"
+      onclick="login()"
+    >
+      Einloggen
+    </button>
+
+
+    <p
+      id="loginError"
+      class="error"
+    ></p>
+
+  </div>
+
+</section>
+
+
+
+<!-- ADMIN BEREICH -->
+
+<section
+  id="dashboard"
+  class="hidden"
+>
+
+
+  <div class="top">
+
+    <h1>Dashboard</h1>
+
+    <button
+      class="secondary logout"
+      onclick="logout()"
+    >
+      Abmelden
+    </button>
+
+  </div>
+
+
+
+  <!-- FREIE ZEIT -->
+
+  <div class="card">
+
+    <h2>
+      Freie Massagezeit hinzufügen
+    </h2>
+
+
+    <label>
+      Datum
+
+      <input
+        id="slotDate"
+        type="date"
+      >
+
+    </label>
+
+
+    <label>
+      Uhrzeit
+
+      <input
+        id="slotTime"
+        type="time"
+        value="14:00"
+      >
+
+    </label>
+
+
+    <button
+      class="primary"
+      onclick="addSlot()"
+    >
+      Freie Zeit hinzufügen
+    </button>
+
+
+    <p
+      id="slotMessage"
+      class="success"
+    ></p>
+
+  </div>
+
+
+
+  <!-- FREIE ZEITEN -->
+
+  <div class="card">
+
+    <h2>
+      Meine freien Zeiten
+    </h2>
+
+    <div id="slots">
+      Lade...
+    </div>
+
+  </div>
+
+
+
+  <!-- TERMINE -->
+
+  <div class="card">
+
+    <h2>
+      Gebuchte Termine
+    </h2>
+
+    <div id="appointments">
+      Lade...
+    </div>
+
+  </div>
+
+
+</section>
+
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL =
+  "https://bxwvirthjxpxytvwkcap.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_CvYQjQMtP9Kwkl10ZcMNXQ_vjgwrhhS";
+
+
+const db =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+alert("JavaScript läuft");
+
+
+/*
+====================================
+LOGIN
+====================================
+*/
+
+
+async function login() {
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+  const error =
+    document
+      .getElementById("loginError");
+
+  error.textContent = "";
+
+  const result =
+    await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+  if (result.error) {
+
+    error.textContent =
+      "Fehler: " + result.error.message;
+
+    return;
+
+  }
+
+  showDashboard();
+
+}
+
+
+
+/*
+====================================
+DASHBOARD
+====================================
+*/
+
+
+async function showDashboard() {
+
+
+  document
+    .getElementById("login")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("dashboard")
+    .classList.remove("hidden");
+
+
+  await loadSlots();
+
+  await loadAppointments();
+
+}
+
+
+
+/*
+====================================
+LOGOUT
+====================================
+*/
+
+
+async function logout() {
+
+  await db.auth.signOut();
+
+  location.reload();
+
+}
+
+
+
+/*
+====================================
+SESSION PRÜFEN
+====================================
+*/
+
+
+async function checkLogin() {
+
+
+  const result =
+    await db.auth.getSession();
+
+
+  if (result.data.session) {
+
+    showDashboard();
+
+  }
+
+}
+
+
+
+/*
+====================================
+FREIE ZEIT HINZUFÜGEN
+====================================
+*/
+
+
+async function addSlot() {
+
+
+  const date =
+    document
+      .getElementById("slotDate")
+      .value;
+
+
+  const time =
+    document
+      .getElementById("slotTime")
+      .value;
+
+
+  const message =
+    document
+      .getElementById("slotMessage");
+
+
+  message.textContent = "";
+
+
+  if (!date || !time) {
+
+    message.textContent =
+      "Bitte Datum und Uhrzeit auswählen.";
+
+    return;
+
+  }
+
+
+  /*
+    Massage dauert 15 Minuten.
+  */
+
+
+ /* Massage dauert 15 Minuten. */
+const start = time + ":00";
+
+const hour = parseInt(
+  time.substring(0,2)
+);
+
+const minute = parseInt(
+  time.substring(3,5)
+);
+
+const totalMinutes =
+  hour * 60 +
+  minute +
+  15;
+
+const endHour =
+  String(
+    Math.floor(totalMinutes / 60) % 24
+  ).padStart(2, "0");
+
+const endMinute =
+  String(
+    totalMinutes % 60
+  ).padStart(2, "0");
+
+const end =
+  endHour +
+  ":" +
+  endMinute +
+  ":00"; 
+
+
+  const result =
+    await db
+      .from("availability")
+      .insert({
+
+        date: date,
+
+        start_time: start,
+
+        end_time: end,
+
+        available: true
+
+      });
+
+
+  if (result.error) {
+
+    message.textContent =
+      "Diese Zeit existiert möglicherweise bereits.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Freie Zeit wurde hinzugefügt.";
+
+  await loadSlots();
+
+}
+
+
+
+/*
+====================================
+FREIE ZEITEN LADEN
+====================================
+*/
+
+
+async function loadSlots() {
+
+  const container =
+    document.getElementById("slots");
+
+  const result =
+    await db
+      .from("availability")
+      .select("*")
+      .gte(
+        "date",
+        new Date()
+          .toISOString()
+          .split("T")[0]
+      )
+      .order("date")
+      .order("start_time");
+
+  if (result.error) {
+    container.innerHTML =
+      "<p>Fehler beim Laden.</p>";
+    return;
+  }
+
+  if (!result.data.length) {
+    container.innerHTML =
+      "<p>Noch keine freien Zeiten.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  result.data.forEach(slot => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "slot";
+
+    div.innerHTML = `
+      <strong>
+        ${formatDate(slot.date)}
+      </strong>
+
+      <br>
+
+      ${slot.start_time.substring(0,5)}
+      Uhr
+
+      <button
+        type="button"
+        class="danger"
+        onclick="deleteSlot('${slot.id}')"
+      >
+        Freie Zeit löschen
+      </button>
+     `;
+    container.appendChild(div);
+  });
+}
+  
+/*
+====================================
+FREIE ZEIT LÖSCHEN
+====================================
+*/
+
+
+async function deleteSlot(id) {
+
+  if (
+    !confirm(
+      "Möchtest du diese freie Zeit löschen?"
+    )
+  ) {
+
+    return;
+
+  }
+
+  const result =
+    await db
+      .from("availability")
+      .delete()
+      .eq("id", id);
+
+  if (result.error) {
+    alert(
+      "Fehler beim Löschen: " +
+      result.error.message
+    );
+    return;
+  }
+
+  await loadSlots();
+
+}
+
+/*
+====================================
+TERMINE LADEN
+====================================
+*/
+
+
+async function loadAppointments() {
+
+  const container =
+    document.getElementById("appointments");
+
+  const result =
+    await db
+      .from("appointments")
+      .select("*")
+      .neq("status", "cancelled")
+      .order("date")
+      .order("start_time");
+
+  if (result.error) {
+
+    container.innerHTML =
+      "<p>Fehler beim Laden.</p>";
+
+    return;
+  }
+
+  if (!result.data.length) {
+
+    container.innerHTML =
+      "<p>Noch keine Buchungen.</p>";
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  result.data.forEach(appointment => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "appointment";
+
+    div.innerHTML = `
+      <strong>
+        ${formatDate(appointment.date)}
+      </strong>
+
+      <br>
+
+      ${appointment.start_time.substring(0,5)}
+      Uhr
+
+      <p>
+        Kunde:
+        ${escapeHtml(appointment.customer_name)}
+      </p>
+
+      <p>
+        Status:
+        ${escapeHtml(appointment.status)}
+      </p>
+
+      ${
+        appointment.message
+        ?
+        `
+          <p>
+            Nachricht:
+            ${escapeHtml(appointment.message)}
+          </p>
+        `
+        :
+        ""
+      }
+
+      <p>
+        Buchungscode:
+        <strong>
+          ${escapeHtml(appointment.booking_code)}
+        </strong>
+      </p>
+
+      <button
+        type="button"
+        class="danger"
+      >
+        Termin stornieren
+      </button>
+    `;
+
+    const button =
+      div.querySelector("button");
+
+    button.addEventListener(
+      "click",
+      () => cancelAppointment(appointment.id)
+    );
+
+    container.appendChild(div);
+
+  });
+}
+
+/*
+====================================
+TERMIN STORNIEREN
+====================================
+*/
+
+
+async function cancelAppointment(id) {
+
+  alert("Stornieren wurde gestartet. ID: " + id);
+
+  if (
+    !confirm(
+      "Möchtest du diesen Termin wirklich stornieren?"
+    )
+  ) {
+    return;
+  }
+
+  const result =
+    await db
+      .from("appointments")
+      .update({
+        status: "cancelled"
+      })
+      .eq("id", id);
+
+  if (result.error) {
+    alert(
+      "Fehler beim Stornieren: " +
+      result.error.message
+    );
+    return;
+  }
+
+  await loadAppointments();
+}
+
+/*
+====================================
+DATUM
+====================================
+*/
+
+
+function formatDate(date) {
+
+
+  return new Intl.DateTimeFormat(
+    "de-DE",
+    {
+
+      weekday: "long",
+
+      day: "2-digit",
+
+      month: "long",
+
+      year: "numeric"
+
+    }
+  ).format(
+    new Date(
+      date + "T12:00:00"
+    )
+  );
+
+}
+
+
+
+/*
+====================================
+HTML SICHER MACHEN
+====================================
+*/
+
+
+function escapeHtml(text) {
+
+
+  return String(text)
+
+    .replaceAll("&","&amp;")
+
+    .replaceAll("<","&lt;")
+
+    .replaceAll(">","&gt;")
+
+    .replaceAll('"',"&quot;")
+
+    .replaceAll("'","&#039;");
+
+}
+
+
+
+/*
+====================================
+START
+====================================
+*/
+
+
+checkLogin();
+
+
+</script>
+
+
+</body>
+
+</html>
