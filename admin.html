@@ -631,19 +631,11 @@ async function loadSlots() {
       <button
         type="button"
         class="danger"
+        onclick="deleteSlot('${slot.id}')"
       >
         Freie Zeit löschen
       </button>
-    `;
-
-    const button =
-      div.querySelector("button");
-
-    button.addEventListener(
-      "click",
-      () => deleteSlot(slot.id)
-    );
-
+     `;
     container.appendChild(div);
   });
 }
