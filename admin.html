@@ -324,9 +324,6 @@
 </main>
 
 
-<script>
-
-
 /*
 ====================================
 SUPABASE
@@ -360,15 +357,11 @@ LOGIN
 
 async function login() {
 
-  alert("Login-Funktion wird gestartet!");
-  alert("1. Login-Funktion läuft");
- 
   const email =
     document
       .getElementById("email")
       .value
       .trim();
-
 
   const password =
     document
@@ -379,20 +372,14 @@ async function login() {
     document
       .getElementById("loginError");
 
-
   error.textContent = "";
 
-  alert("2. Jetzt wird Supabase aufgerufen"); 
-  
   const result =
     await db.auth.signInWithPassword({
       email: email,
       password: password
-
     });
 
-  alert("3. Supabase hat geantwortet");
-  
   if (result.error) {
 
     error.textContent =
@@ -401,7 +388,6 @@ async function login() {
     return;
 
   }
-
 
   showDashboard();
 
