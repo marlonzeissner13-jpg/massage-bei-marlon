@@ -676,7 +676,7 @@ async function deleteSlot(id) {
   if (result.error) {
     alert(
       "Fehler beim Löschen: " +
-      result.error.massage
+      result.error.message
     );
     return;
   }
@@ -802,8 +802,32 @@ async function cancelAppointment(id) {
 
   alert("Stornieren wurde gestartet. ID: " + id);
 
-}
+  if (
+    !confirm(
+      "Möchtest du diesen Termin wirklich stornieren?"
+    )
+  ) {
+    return;
+  }
 
+  const result =
+    await db
+      .from("appointments")
+      .update({
+        status: "cancelled"
+      })
+      .eq("id", id);
+
+  if (result.error) {
+    alert(
+      "Fehler beim Stornieren: " +
+      result.error.message
+    );
+    return;
+  }
+
+  await loadAppointments();
+}
 
 /*
 ====================================
